@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Multi-Agent Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container" id="app-container">
+        <nav class="sidebar" id="app-sidebar" aria-label="Main navigation">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title"><span>Gemini Platform</span></h2>
+                <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar" title="Close sidebar">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <ul class="sidebar-nav-list">
+                <li><a href="#" data-section="agent-dashboard" class="sidebar-link active" aria-current="page"><i class="fas fa-tachometer-alt fa-fw" aria-hidden="true"></i> <span class="link-text">Agent Dashboard</span></a></li>
+                <li><a href="#" data-section="agent-configuration" class="sidebar-link"><i class="fas fa-cogs fa-fw" aria-hidden="true"></i> <span class="link-text">Agent Configuration</span></a></li>
+                <li><a href="#" data-section="workflow-studio" class="sidebar-link"><i class="fas fa-project-diagram fa-fw" aria-hidden="true"></i> <span class="link-text">Workflow Studio</span></a></li>
+                <li><a href="#" data-section="global-settings" class="sidebar-link"><i class="fas fa-globe fa-fw" aria-hidden="true"></i> <span class="link-text">Global Settings & API</span></a></li>
+                <li><a href="#" data-section="master-ai-orchestrator" class="sidebar-link"><i class="fas fa-brain fa-fw" aria-hidden="true"></i> <span class="link-text">Master AI Orchestrator</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <p class="warning-text">
+                    <strong>Warning:</strong> API keys are client-side. For dev/testing only.
+                </p>
+            </div>
+        </nav>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+       
+<div class="app-container" id="app-container">
+    <nav class="sidebar" id="app-sidebar" aria-label="Main navigation">
+        {/* ... sidebar content ... */}
+    </nav>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    
+    <div class="bubbles-background" id="bubbles-background">
+        
+    </div>
+    
+
+    <main class="main-content" id="main-content">
+        <header class="page-header">
+        
+        <main class="main-content" id="main-content">
+            <header class="page-header">
+                <div class="page-header-left">
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle sidebar navigation" aria-expanded="true" title="Toggle sidebar">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <h1 class="page-main-title">Gemini Multi-Agent Studio</h1>
+                </div>
+                <span class="preview-badge">Preview</span>
+            </header>
+
+            <section id="global-settings-section" class="content-section" aria-labelledby="global-settings-heading" style="display: none;">
+                <div class="section-header">
+                    <h2 id="global-settings-heading">Global Settings & API Key Management</h2>
+                </div>
+                <div class="alert alert-warning security-warning" role="alert">
+                    <p><strong>SECURITY WARNING:</strong> API Keys entered here are stored in your browser's local storage and used directly from the client-side. This is NOT secure for production. Use for local development or testing only.</p>
+                </div>
+
+                <div class="form-grid two-column-grid">
+                    <div class="form-group">
+                        <label for="gemini-api-key-select">Select Active API Key:</label>
+                        <select id="gemini-api-key-select" class="form-control">
+                            <option value="">-- Select API Key --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-gemini-api-key-input">Add New Gemini API Key:</label>
+                        <div class="input-group">
+                            <input type="password" id="new-gemini-api-key-input" class="form-control" placeholder="Enter new Gemini API Key">
+                            <button id="add-gemini-api-key-btn" class="button button-primary">Add Key</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-actions">
+                    <button id="remove-gemini-api-key-btn" class="button button-danger">Remove Selected Key</button>
+                </div>
+                <hr class="section-divider">
+                <div class="form-grid two-column-grid">
+                    <div class="form-group">
+                        <label for="default-gemini-model">Default Gemini Model for New Agents:</label>
+                        <select id="default-gemini-model" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-model-name-input">Manually Add Model Name to Usable List:</label>
+                        <div class="input-group">
+                            <input type="text" id="manual-model-name-input" class="form-control" placeholder="e.g., models/gemini-1.5-pro-latest">
+                            <button id="add-manual-model-btn" class="button button-primary">Add Model</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button id="discover-models-btn" class="button button-secondary">Discover Available Models (Mock)</button>
+                </div>
+
+                <div class="list-view-container">
+                    <h3 class="list-view-title">Application's Usable Model List:</h3>
+                    <ul id="available-models-list" class="styled-list">
+                         <li class="placeholder list-item-placeholder">No models added yet.</li>
+                    </ul>
+                </div>
+                <div class="form-actions">
+                    <button id="save-settings-btn" class="button button-primary">Save Default Model & Usable List</button>
+                </div>
+            </section>
+
+            <section id="agent-configuration-section" class="content-section" aria-labelledby="agent-config-heading" style="display: none;">
+                <div class="section-header">
+                    <h2 id="agent-config-heading">Configure Agent</h2>
+                </div>
+                <p class="section-description">Define specialized AI agents. The "Master AI Orchestrator" can use these agents.</p>
+                <form id="agent-config-form" class="styled-form">
+                    <input type="hidden" id="agent-id">
+                    <div class="form-group">
+                        <label for="agent-name">Agent Name:</label>
+                        <input type="text" id="agent-name" class="form-control" required placeholder="Unique agent name">
+                    </div>
+                    <div class="form-group">
+                        <label for="system-prompt">System Prompt (Instructions for the Agent):</label>
+                        <textarea id="system-prompt" class="form-control" rows="8" required placeholder="Define persona, instructions, tasks..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="agent-gemini-model">Gemini Model for this Agent:</label>
+                        <select id="agent-gemini-model" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="button button-primary">Save Agent</button>
+                        <button type="button" id="cancel-agent-edit-btn" class="button button-secondary" style="display: none;">Cancel Edit</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="agent-dashboard-section" class="content-section" aria-labelledby="agent-dashboard-heading">
+                <div class="section-header">
+                    <h2 id="agent-dashboard-heading">Agent Dashboard</h2>
+                    <button id="create-new-agent-btn" class="button button-primary">Create New Agent</button>
+                </div>
+                <div id="agent-list-container" class="cards-container">
+                    <div class="placeholder card-placeholder">No agents created yet. Click "Create New Agent" to start.</div>
+                </div>
+            </section>
+
+            <section id="individual-agent-interaction-section" class="content-section" aria-labelledby="interaction-agent-name-heading" style="display: none;">
+                <div class="section-header interaction-header">
+                    <button id="back-to-dashboard-btn" class="button button-icon-text" title="Back to dashboard">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i> <span class="button-text">Back to Dashboard</span>
+                    </button>
+                    <h2 id="interaction-agent-name-heading">Agent Interaction</h2>
+                </div>
+                <div class="agent-info-display">
+                    <p><strong>System Prompt:</strong></p>
+                    <pre id="interaction-system-prompt" class="system-prompt-display" tabindex="0">System prompt details...</pre>
+                </div>
+                <div id="chat-history" class="chat-history-area" role="log" aria-live="polite">
+                     <div class="placeholder chat-placeholder">Chat history will appear here.</div>
+                </div>
+                <div class="chat-input-area">
+                    <label for="user-prompt-input" class="sr-only">User Prompt:</label>
+                    <textarea id="user-prompt-input" class="form-control" placeholder="Enter your prompt..." rows="3"></textarea>
+                    <button id="send-prompt-btn" class="button button-primary">Send</button>
+                </div>
+            </section>
+
+            <section id="workflow-studio-section" class="content-section" aria-labelledby="workflow-studio-heading" style="display: none;">
+                <div class="section-header">
+                    <h2 id="workflow-studio-heading">Manual Workflow Studio</h2>
+                    <button id="create-new-workflow-btn" class="button button-primary">Create New Workflow</button>
+                </div>
+                <p class="section-description">Manually chain pre-defined agents together in a sequence.</p>
+
+                <div id="workflow-list-container" class="cards-container">
+                    <div class="placeholder card-placeholder">No workflows created yet.</div>
+                </div>
+
+                <div id="workflow-editor" style="display:none;" class="editor-area">
+                    <div class="section-header">
+                        <h3 id="workflow-editor-title">Workflow Editor</h3>
+                    </div>
+                    <form id="workflow-editor-form" class="styled-form">
+                        <input type="hidden" id="workflow-id">
+                        <div class="form-group">
+                            <label for="workflow-name">Workflow Name:</label>
+                            <input type="text" id="workflow-name" class="form-control" placeholder="e.g., Content Generation Pipeline">
+                        </div>
+                        <fieldset class="form-fieldset">
+                            <legend class="fieldset-legend">Add Agents to Workflow (in sequence):</legend>
+                            <div class="form-group input-group">
+                                <label for="workflow-agent-selector" class="sr-only">Select agent for step:</label>
+                                <select id="workflow-agent-selector" class="form-control" style="flex-grow: 1;">
+                                </select>
+                                <button type="button" id="add-agent-to-workflow-btn" class="button button-secondary">Add Agent to Step</button>
+                            </div>
+                            <div id="workflow-steps-container" class="list-view-container">
+                                <ul class="styled-list">
+                                    <li class="placeholder list-item-placeholder">No steps added yet.</li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="workflow-initial-input">Initial Input for Workflow:</label>
+                            <textarea id="workflow-initial-input" class="form-control" rows="3" placeholder="Provide initial data..."></textarea>
+                        </div>
+                        <p class="info-text"><em>(Output of one agent becomes input for the next.)</em></p>
+                        <div class="form-actions">
+                            <button type="button" id="run-workflow-btn" class="button button-primary">Run Workflow</button>
+                            <button type="button" id="save-workflow-btn" class="button button-primary">Save Workflow</button>
+                            <button type="button" id="cancel-workflow-edit-btn" class="button button-secondary">Cancel</button>
+                        </div>
+                    </form>
+                    <div class="output-container">
+                        <h4>Workflow Output:</h4>
+                        <pre id="workflow-output" class="output-area" role="status" aria-live="assertive">
+                            <span class="placeholder">Workflow output will appear here.</span>
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="master-ai-orchestrator-section" class="content-section" aria-labelledby="master-ai-heading" style="display: none;">
+                <div class="section-header">
+                    <h2 id="master-ai-heading">Master AI Orchestrator</h2>
+                </div>
+                <p class="section-description">Delegate a high-level goal to a Master AI.</p>
+                <form id="master-ai-form" class="styled-form">
+                    <div class="form-group">
+                        <label for="master-ai-agent-selector">Select Master AI Orchestrator Agent:</label>
+                        <select id="master-ai-agent-selector" class="form-control">
+                            <option value="">-- Select a configured Master AI Agent --</option>
+                        </select>
+                        <p class="info-text">(Create an agent in "Agent Configuration" for orchestration.)</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="high-level-goal-input">High-Level Goal for Master AI:</label>
+                        <textarea id="high-level-goal-input" class="form-control" rows="4" placeholder="e.g., Write a market analysis report..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="run-master-ai-btn" class="button button-primary">Run with Master AI</button>
+                        <button type="button" id="stop-master-ai-btn" class="button button-danger" style="display: none;">Stop Master AI</button>
+                    </div>
+                </form>
+                <div class="output-container">
+                    <h4>Orchestration Log & Output:</h4>
+                    <pre id="master-ai-log-area" class="output-area chat-history-area" role="log" aria-live="polite">
+                        <span class="placeholder">Master AI actions and final output...</span>
+                    </pre>
+                </div>
+                
+                <!-- In your Master AI Orchestrator section in HTML -->
+            <div class="output-area">
+                <h4>Master AI Final Output</h4>
+            <div id="master-ai-final-output" class="styled-output-area" aria-live="polite">
+                <p class="placeholder">Final synthesized output from Master AI will appear here...</p>
+                </div>
+            </div>
+            
+            
+            
+            <div class="form-group">
+                <label for="master-ai-max-iterations">Max Iterations:</label>
+                <input type="number" id="master-ai-max-iterations" class="form-control" value="30" min="1" max="50" style="max-width: 100px;">
+                <small class="info-text">Set the maximum number of steps the Master AI can take (e.g., 1-50).</small>
+            </div>
+            </section>
+            
+        </main>
+    </div>
+    <script type="module" src="let.js"></script>
+    <script type="module" src="l30.js"></script>
+</body>
+</html>
+
+
+
